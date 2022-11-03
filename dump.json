@@ -1,0 +1,48 @@
+{
+  "className": "Node",
+  "cnt": 6,
+  "value": {
+    "className": "UserInteger",
+    "raw_value": 3
+  },
+  "leftChild": {
+    "className": "Node",
+    "cnt": 2,
+    "value": {
+      "className": "UserInteger",
+      "raw_value": 4
+    },
+    "leftChild": {
+      "className": "Node",
+      "cnt": 1,
+      "value": {
+        "className": "UserInteger",
+        "raw_value": 7
+      }
+    }
+  },
+  "rightChild": {
+    "className": "Node",
+    "cnt": 3,
+    "value": {
+      "className": "UserInteger",
+      "raw_value": 5
+    },
+    "leftChild": {
+      "className": "Node",
+      "cnt": 1,
+      "value": {
+        "className": "UserInteger",
+        "raw_value": 6
+      }
+    },
+    "rightChild": {
+      "className": "Node",
+      "cnt": 1,
+      "value": {
+        "className": "UserInteger",
+        "raw_value": 8
+      }
+    }
+  }
+}
