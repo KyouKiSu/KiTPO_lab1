@@ -14,4 +14,5 @@ public interface UserType extends Comparable{
     public String packValue();
     public UserType create(ArrayList<String> values);
     public ArrayList<Pair<String, String>> getFields();
+    public int compareTo(Object o);
 }

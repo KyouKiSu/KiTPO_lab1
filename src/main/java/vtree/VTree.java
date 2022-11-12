@@ -5,9 +5,9 @@ import types.UserType;
 import java.util.Stack;
 import java.util.Vector;
 
-public class VTree<T extends UserType>{
+public class VTree {
 
-    Node<T> root;
+    Node root;
 
 
     public VTree() {
@@ -15,9 +15,9 @@ public class VTree<T extends UserType>{
     }
 
 
-    public void Insert(T value) {
+    public void Insert(UserType value) {
         if (root == null) {
-            Node<T> newNode = new Node<>(value);
+            Node newNode = new Node(value);
             newNode.setCount(1);
             root = newNode;
         } else {
@@ -26,7 +26,7 @@ public class VTree<T extends UserType>{
             boolean left = true;
             while (true) {
                 if (current == null) {
-                    Node<T> newNode = new Node<>(value);
+                    Node newNode = new Node(value);
                     newNode.setCount(1);
                     if (left) {
                         parent.setLeftChild(newNode);
@@ -36,10 +36,10 @@ public class VTree<T extends UserType>{
                     return;
                 }
                 current.incrementCount();
-                int cmpResult = value.compareTo((T) current.getValue());
+                int cmpResult = value.compareTo(current.getValue());
                 if (cmpResult < 0) {
-                    T c = (T) current.getValue();
-                    current.setValue((T) value);
+                    UserType c = current.getValue();
+                    current.setValue(value);
                     value = c;
                 }
                 parent = current;
@@ -54,8 +54,8 @@ public class VTree<T extends UserType>{
         }
     }
 
-    public Node<T> find(T value) {
-        Stack<Node<T>> nodes = new Stack<>();
+    public Node find(UserType value) {
+        Stack<Node> nodes = new Stack<>();
         nodes.push(root);
         Stack<Integer> states = new Stack<>();
         states.push(0);
@@ -64,7 +64,7 @@ public class VTree<T extends UserType>{
             if (nodes.empty()) {
                 return null;
             }
-            Node<T> current = nodes.peek();
+            Node current = nodes.peek();
             if (current == null) {
                 // go back?
                 nodes.pop();
@@ -124,7 +124,7 @@ public class VTree<T extends UserType>{
 
 
     public void ForEach(DoWith func) {
-        Stack<Node<T>> nodes = new Stack<>();
+        Stack<Node> nodes = new Stack<>();
         nodes.push(root);
         Stack<Integer> states = new Stack<>();
         states.push(0);
@@ -133,7 +133,7 @@ public class VTree<T extends UserType>{
             if (nodes.empty()) {
                 return;
             }
-            Node<T> current = nodes.peek();
+            Node current = nodes.peek();
             if (current == null) {
                 // go back?
                 nodes.pop();
@@ -178,14 +178,14 @@ public class VTree<T extends UserType>{
             }
         }
     }
-    public T GetByIndex (int index){
-        final Vector<T>[] elementList = new Vector[]{new Vector<>()};
+    public UserType GetByIndex (int index){
+        final Vector<UserType>[] elementList = new Vector[]{new Vector<>()};
         final int[] curindex = {0};
         DoWith getElement = new DoWith() {
             @Override
             public void doWith(Object obj) {
                 if(index== curindex[0]){
-                    elementList[0].add((T) obj);
+                    elementList[0].add((UserType) obj);
                 }
                 curindex[0] +=1;
             }
@@ -197,9 +197,9 @@ public class VTree<T extends UserType>{
         return null;
     }
 
-    public T GetByIndexOld(int index) {
+    public UserType GetByIndexOld(int index) {
         int currentIndex = 0;
-        Stack<Node<T>> nodes = new Stack<>();
+        Stack<Node> nodes = new Stack<>();
         nodes.push(root);
         Stack<Integer> states = new Stack<>();
         states.push(0);
@@ -208,7 +208,7 @@ public class VTree<T extends UserType>{
             if (nodes.empty()) {
                 return null;
             }
-            Node<T> current = nodes.peek();
+            Node current = nodes.peek();
             if (current == null) {
                 // go back?
                 nodes.pop();
@@ -256,8 +256,8 @@ public class VTree<T extends UserType>{
             }
         }
     }
-    public Stack<Node<T>> findParents(T value) {
-        Stack<Node<T>> nodes = new Stack<>();
+    public Stack<Node> findParents(UserType value) {
+        Stack<Node> nodes = new Stack<>();
         nodes.push(root);
         Stack<Integer> states = new Stack<>();
         states.push(0);
@@ -266,7 +266,7 @@ public class VTree<T extends UserType>{
             if (nodes.empty()) {
                 return null;
             }
-            Node<T> current = nodes.peek();
+            Node current = nodes.peek();
             if (current == null) {
                 // go back?
                 nodes.pop();
@@ -323,19 +323,19 @@ public class VTree<T extends UserType>{
     }
 
     public void RemoveByIndex(int index){
-        T value = GetByIndex(index);
+        UserType value = GetByIndex(index);
         if(value!=null){
             Remove(value);
         }
     }
 
-    public T Remove(T value) {
-        Stack<Node<T>> parents = findParents(value);
+    public UserType Remove(UserType value) {
+        Stack<Node> parents = findParents(value);
 
         if (parents == null || parents.empty()) { // root or not found
             if (root.getValue().compareTo(value) == 0) {
                 if(root.getRightChild()==null && root.getLeftChild()==null){
-                    T toreturn = root.getValue();
+                    UserType toreturn = root.getValue();
                     root = null;
                     return toreturn;
                 } // if any child present, continue below
@@ -344,16 +344,16 @@ public class VTree<T extends UserType>{
                 return null;
             }
         }
-        Node<T> current;
-        Node<T> parent = null;
-        Stack<Node<T>> childs = new Stack<>();
+        Node current;
+        Node parent = null;
+        Stack<Node> childs = new Stack<>();
         Stack<Integer> states = new Stack<>(); // 1 left 0 right
 
         if(parents==null){
             current=root;
         } else {
             parent = parents.peek();
-            if (parent.getRightChild() != null && value.compareTo((T) parent.getRightChild().getValue()) == 0) {
+            if (parent.getRightChild() != null && value.compareTo( parent.getRightChild().getValue()) == 0) {
                 current = parent.getRightChild();
             } else {
                 current = parent.getLeftChild();
@@ -366,8 +366,8 @@ public class VTree<T extends UserType>{
 
         boolean shouldReturn = false;
 
-        T cvalue = value;
-        Node<T> deleted = null;
+        UserType cvalue = value;
+        Node deleted = null;
 
         while (true) {
             if (childs.empty()) {
@@ -393,7 +393,7 @@ public class VTree<T extends UserType>{
                 if (childs.peek().getRightChild() == deleted) {
                     childs.peek().setRightChild(null);
                 }
-                T b = childs.peek().getValue();
+                UserType b = childs.peek().getValue();
                 childs.peek().setValue(cvalue);
                 childs.peek().decrementCount();
                 cvalue = b;
@@ -408,7 +408,7 @@ public class VTree<T extends UserType>{
                 continue;
             }
 
-            if (childs.peek().getLeftChild() == null || childs.peek().getRightChild() != null && ((T) childs.peek().getLeftChild().getValue()).compareTo((T) childs.peek().getRightChild().getValue()) > 0) {
+            if (childs.peek().getLeftChild() == null || childs.peek().getRightChild() != null && (childs.peek().getLeftChild().getValue()).compareTo(childs.peek().getRightChild().getValue()) > 0) {
                 // going right
                 childs.push(childs.peek().getRightChild());
             } else {
@@ -428,16 +428,16 @@ public class VTree<T extends UserType>{
     }
 
     public void rebalance(){
-        Vector<T> elementList = new Vector<>();
+        Vector<UserType> elementList = new Vector<>();
         DoWith getElement = new DoWith() {
             @Override
             public void doWith(Object obj) {
-                elementList.add((T) obj);
+                elementList.add((UserType) obj);
             }
         };
         ForEach(getElement);
         root=null;
-        for (T element: elementList) {
+        for (UserType element: elementList) {
             Insert(element);
         }
     }
@@ -459,11 +459,11 @@ public class VTree<T extends UserType>{
         return result;
     }
 
-    public T GetRoot() {
+    public UserType GetRoot() {
         return root.getValue();
     }
 
-    public void SetRoot(Node<T> _root) {
+    public void SetRoot(Node _root) {
         root=_root;
     }
 

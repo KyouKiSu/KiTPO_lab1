@@ -2,13 +2,13 @@ package vtree;
 
 import types.UserType;
 
-public class Node<T extends UserType> {
+public class Node {
     final static String className = "Node";
-    private T value;
-    private Node<T> leftChild;
-    private Node<T> rightChild;
+    private UserType value;
+    private Node leftChild;
+    private Node rightChild;
     private int cnt;
-    public Node(T _value){
+    public Node(UserType _value){
         this.value = _value;
         this.leftChild = null;
         this.rightChild = null;
@@ -26,7 +26,7 @@ public class Node<T extends UserType> {
         return packed;
     }
 
-    public T getValue() {
+    public UserType getValue() {
         return this.value;
     }
 
@@ -46,7 +46,7 @@ public class Node<T extends UserType> {
         this.cnt -=1;
     }
 
-    public void setValue(final T value) {
+    public void setValue(final UserType value) {
         this.value = value;
     }
 

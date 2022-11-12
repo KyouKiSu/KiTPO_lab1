@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class AppController {
     VTreeFactory vTreeFactory = new VTreeFactory();
-    VTree<UserType> tree;
+    VTree tree;
     @FXML
     private ChoiceBox userTypeChoiceBox;
 
@@ -35,7 +35,10 @@ public class AppController {
 
     public void initialize() {
         // init choice box with user types
-        ObservableList<String> list = FXCollections.observableArrayList(UserFactory.getTypeNames());
+        ObservableList<String> list = FXCollections.observableArrayList();
+        for (UserType _class: UserFactory.types) {
+            list.add(_class.getClassName());
+        }
         userTypeChoiceBox.setItems(list);
         userTypeChoiceBox.setValue(list.get(0));
     }
@@ -54,8 +57,6 @@ public class AppController {
     protected void setFactoryClasses(){
         String selectedClass = (String) userTypeChoiceBox.getValue();
         vTreeFactory.setType(selectedClass);
-        // System.out.println(selectedClass);
-        // System.out.println(vTreeFactory.getTypeInstance());
     }
 
     protected UserType createElement(){
@@ -91,7 +92,7 @@ public class AppController {
 
         // update grid with fields from factory
         String selectedClass = (String) userTypeChoiceBox.getValue();
-        ArrayList<Pair<String, String>> userTypeFieldInfo = UserFactory.getTypeInfo().get(selectedClass);
+        ArrayList<Pair<String, String>> userTypeFieldInfo = UserFactory.getBuilderByName(selectedClass).getFields();
 
         userTypeFieldGrid.getChildren().clear();
         int row = 0;
